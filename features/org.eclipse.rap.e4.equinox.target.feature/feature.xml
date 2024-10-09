@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rap.e4.equinox.target.feature"
       label="RAP Basic E4 Equinox Target"
-      version="3.28.0.qualifier"
+      version="4.1.0.qualifier"
       provider-name="Eclipse.org - RAP"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
@@ -20,21 +20,21 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.rap.e4.feature" version="3.28.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.rap.e4.feature" version="4.1.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="jakarta.servlet-api"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="6.1.0"
          unpack="false"/>
 
    <plugin
          id="jakarta.servlet-api.source"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="6.1.0"
          unpack="false"/>
 
    <plugin
@@ -276,56 +276,56 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.http.jetty"
+         id="org.eclipse.rap.http.jetty"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.http.jetty.source"
+         id="org.eclipse.rap.http.jetty.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.http.registry"
+         id="org.eclipse.rap.http.registry"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.http.registry.source"
+         id="org.eclipse.rap.http.registry.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.http.servlet"
+         id="org.eclipse.rap.http.servlet"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.http.servlet.source"
+         id="org.eclipse.rap.http.servlet.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.http.servletbridge"
+         id="org.eclipse.rap.http.servletbridge"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.servletbridge"
+         id="org.eclipse.rap.servletbridge"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -424,20 +424,6 @@
 
    <plugin
          id="org.eclipse.osgi.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.osgi.services"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.osgi.services.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -709,6 +695,20 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.jetty.logging"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.logging.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.jetty.security"
          download-size="0"
          install-size="0"
@@ -731,20 +731,6 @@
 
    <plugin
          id="org.eclipse.jetty.server.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.jetty.ee8.servlet"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.jetty.ee8.servlet.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -793,7 +779,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.commons-fileupload"
+         id="org.apache.commons.commons-fileupload2-core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.commons.commons-fileupload2-jakarta-servlet6"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -815,20 +808,6 @@
 
    <plugin
          id="jakarta.annotation-api.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.commons.jxpath"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.commons.jxpath.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -1032,6 +1011,41 @@
 
    <plugin
          id="slf4j.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rap.http.jetty"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rap.http.registry"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rap.http.servlet"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rap.http.servletbridge"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rap.servletbridge"
          download-size="0"
          install-size="0"
          version="0.0.0"

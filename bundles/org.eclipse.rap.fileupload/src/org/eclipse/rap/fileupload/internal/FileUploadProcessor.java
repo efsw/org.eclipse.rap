@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2023 EclipseSource and others.
+ * Copyright (c) 2011, 2024 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,24 +13,22 @@ package org.eclipse.rap.fileupload.internal;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
-import org.apache.commons.fileupload.ProgressListener;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.core.FileItemInput;
+import org.apache.commons.fileupload2.core.FileItemInputIterator;
+import org.apache.commons.fileupload2.core.FileUploadByteCountLimitException;
+import org.apache.commons.fileupload2.core.ProgressListener;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.rap.fileupload.FileDetails;
 import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.rap.fileupload.FileUploadReceiver;
 import org.eclipse.rap.fileupload.UploadSizeLimitExceededException;
 import org.eclipse.rap.fileupload.UploadTimeLimitExceededException;
-import org.eclipse.rap.rwt.internal.util.HTTP;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 
-@SuppressWarnings( "restriction" )
 final class FileUploadProcessor {
 
   private final FileUploadHandler handler;
@@ -51,10 +49,10 @@ final class FileUploadProcessor {
       deadline = System.currentTimeMillis() + handler.getUploadTimeLimit();
     }
     try {
-      ServletFileUpload upload = createUpload();
-      FileItemIterator iter = upload.getItemIterator( request );
+      JakartaServletFileUpload upload = createUpload();
+      FileItemInputIterator iter = upload.getItemIterator( request );
       while( iter.hasNext() ) {
-        FileItemStream item = iter.next();
+        FileItemInput item = iter.next();
         if( !item.isFormField() ) {
           receive( item );
         }
@@ -69,7 +67,7 @@ final class FileUploadProcessor {
       }
     } catch( Exception exception ) {
       Throwable cause = exception.getCause();
-      if( cause instanceof FileSizeLimitExceededException ) {
+      if( exception instanceof FileUploadByteCountLimitException ) {
         long sizeLimit = handler.getMaxFileSize();
         exception = new UploadSizeLimitExceededException( sizeLimit, fileName );
       } else if( cause instanceof UploadTimeLimitExceededException ) {
@@ -87,11 +85,10 @@ final class FileUploadProcessor {
     }
   }
 
-  private ServletFileUpload createUpload() {
-    ServletFileUpload upload = new ServletFileUpload();
+  private JakartaServletFileUpload createUpload() {
+    JakartaServletFileUpload upload = new JakartaServletFileUpload();
     upload.setFileSizeMax( handler.getMaxFileSize() );
     upload.setProgressListener( createProgressListener() );
-    upload.setHeaderEncoding( HTTP.CHARSET_UTF_8 );
     return upload;
   }
 
@@ -119,8 +116,8 @@ final class FileUploadProcessor {
     return result;
   }
 
-  private void receive( FileItemStream item ) throws IOException {
-    InputStream stream = item.openStream();
+  private void receive( FileItemInput item ) throws IOException {
+    InputStream stream = item.getInputStream();
     try {
       fileName = FilenameUtils.getName( item.getName() );
       String contentType = item.getContentType();

@@ -59,10 +59,8 @@ class TimerExecScheduler implements SerializableCompatibility {
 
   void dispose() {
     synchronized( display.getDeviceLock() ) {
-      // cancel any active timer
-      Collection<TimerExecTask> toCancel = new ArrayList<>( tasks );
-      toCancel.forEach(  k -> k.cancel() );
-      
+      Collection<TimerExecTask> tasksToCancel = new ArrayList<>( tasks );
+      tasksToCancel.forEach( task -> task.cancel() );
       if( timer != null ) {
         timer.cancel();
       }

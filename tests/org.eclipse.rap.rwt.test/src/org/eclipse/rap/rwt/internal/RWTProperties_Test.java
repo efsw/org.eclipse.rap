@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013, 2022 EclipseSource and others.
+ * Copyright (c) 2013, 2024 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@ package org.eclipse.rap.rwt.internal;
 
 import static org.eclipse.rap.rwt.internal.RWTProperties.ENABLE_LOAD_TESTS;
 import static org.eclipse.rap.rwt.internal.RWTProperties.SERVICE_HANDLER_BASE_URL;
+import static org.eclipse.rap.rwt.internal.RWTProperties.TEXT_SIZE_STORE_SESSION_SCOPED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -36,6 +37,7 @@ public class RWTProperties_Test {
     System.getProperties().remove( TEST_PROPERTY );
     System.getProperties().remove( SERVICE_HANDLER_BASE_URL );
     System.getProperties().remove( ENABLE_LOAD_TESTS );
+    System.getProperties().remove( TEXT_SIZE_STORE_SESSION_SCOPED );
   }
 
   @Test
@@ -111,6 +113,15 @@ public class RWTProperties_Test {
     System.setProperty( ENABLE_LOAD_TESTS, "true" );
 
     assertTrue( RWTProperties.isLoadTestsEnabled() );
+  }
+
+  @Test
+  public void testIsTextSizeStoreSessionScoped() {
+    assertFalse( RWTProperties.isTextSizeStoreSessionScoped() );
+
+    System.setProperty( TEXT_SIZE_STORE_SESSION_SCOPED, "true" );
+
+    assertTrue( RWTProperties.isTextSizeStoreSessionScoped() );
   }
 
 }
