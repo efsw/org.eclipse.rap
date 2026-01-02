@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rap.feature"
       label="RAP Runtime"
-      version="4.1.0.qualifier"
+      version="4.5.0.qualifier"
       provider-name="Eclipse.org - RAP"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
@@ -28,6 +28,13 @@
 
    <plugin
          id="org.eclipse.rap.rwt.osgi"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rap.rwt.addons"
          download-size="0"
          install-size="0"
          version="0.0.0"

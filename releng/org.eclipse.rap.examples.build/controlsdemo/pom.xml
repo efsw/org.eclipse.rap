@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.eclipse.rap</groupId>
     <artifactId>org.eclipse.rap.examples.parent.parent</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.5.0-SNAPSHOT</version>
     <relativePath>../parent/parent</relativePath>
   </parent>
 
@@ -50,7 +50,7 @@
 
       <plugin>
         <groupId>com.google.code.maven-replacer-plugin</groupId>
-        <artifactId>maven-replacer-plugin</artifactId>
+        <artifactId>replacer</artifactId>
         <version>${replacer.version}</version>
         <executions>
           <execution>
@@ -61,7 +61,7 @@
           </execution>
         </executions>
         <configuration>
-          <file>target/products/${project.artifactId}/linux/gtk/x86_64/configuration/config.ini</file>
+          <file>${project.build.directory}/products/${project.artifactId}/linux/gtk/x86_64/configuration/config.ini</file>
           <replacements>
             <replacement>
               <token>osgi.bundles=</token>
