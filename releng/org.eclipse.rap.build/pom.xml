@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright (C) 2011, 2025 EclipseSource and others.
+  Copyright (C) 2011, 2026 EclipseSource and others.
   All rights reserved. This program and the accompanying materials
   are made available under the terms of the Eclipse Public License v1.0
   which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@
 
   <groupId>org.eclipse.rap</groupId>
   <artifactId>org.eclipse.rap.runtime-parent</artifactId>
-  <version>4.5.0-SNAPSHOT</version>
+  <version>4.8.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -27,9 +27,9 @@
     <!-- disabled due to bug 393977
     <tycho-baseline-repo.url>http://download.eclipse.org/rt/rap/3.2/</tycho-baseline-repo.url>
      -->
-    <jetty-repo.url>https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.1.4/</jetty-repo.url>
-    <orbit-repo.url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/2025-12/</orbit-repo.url>
-    <platform-repo.url>https://download.eclipse.org/eclipse/updates/4.38/R-4.38-202512010920/</platform-repo.url>
+    <jetty-repo.url>https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.1.10/</jetty-repo.url>
+    <orbit-repo.url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/2026-09/</orbit-repo.url>
+    <platform-repo.url>https://download.eclipse.org/eclipse/updates/4.41-I-builds/I20260703-1319/</platform-repo.url>
     <license-repo.url>https://download.eclipse.org/cbi/updates/license/1.0.1.v20140414-1359/</license-repo.url>
     <!-- The build type, N for nighty builds, S for stable builds. S-builds will be signed. -->
     <buildType>N</buildType>
