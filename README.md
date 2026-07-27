@@ -1,3 +1,11 @@
+PER COMPILARE
+=============
+
+1. SCARICARE SEMPRE L'ULTIMA VERSIONE DEL MAVEN
+2. LANCIARE BUILD.BAT
+
+
+
 Eclipse RAP Runtime (Remote Application Platform)
 =================================================
 

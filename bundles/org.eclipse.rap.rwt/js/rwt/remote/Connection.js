@@ -313,7 +313,10 @@ rwt.qx.Class.define( "rwt.remote.Connection", {
     _hideWaitHint : function() {
       this._waitHintTimer.stop();
       ErrorHandler.hideErrorBox();
-      ClientDocument.getInstance().setGlobalCursor( this._currentCursor );
+      var doc = ClientDocument.getInstance();
+      if( doc.getGlobalCursor() === "progress" ) {
+        doc.setGlobalCursor( this._currentCursor );
+      }
     }
 
   }
