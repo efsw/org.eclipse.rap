@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.rap.fileupload;singleton:=true
 Bundle-Version: 4.8.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-19
 Bundle-Name: %Bundle-Name
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.rap.rwt;bundle-version="[4.8.0,5.0.0)"
