@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.commands.util.Tracing;
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.ExpressionInfo;
 import org.eclipse.core.runtime.ISafeRunnable;
@@ -29,16 +30,17 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISources;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.misc.Policy;
 import org.eclipse.ui.services.IEvaluationReference;
 import org.eclipse.ui.services.IEvaluationService;
 
 /**
- *
+ * 
  */
 public class EvaluationAuthority extends ExpressionAuthority {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final String COMPONENT = "EVALUATION"; //$NON-NLS-1$
 
@@ -95,21 +97,19 @@ public class EvaluationAuthority extends ExpressionAuthority {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.internal.services.ExpressionAuthority#sourceChanged(int)
 	 */
-	@Override
-  protected void sourceChanged(int sourcePriority) {
+	protected void sourceChanged(int sourcePriority) {
 		// no-op, we want the other one
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.eclipse.ui.internal.services.ExpressionAuthority#sourceChanged(java.lang.String[])
 	 */
-	@Override
-  protected void sourceChanged(String[] sourceNames) {
+	protected void sourceChanged(String[] sourceNames) {
 		startSourceChange(sourceNames);
 		try {
 			// evaluations to recompute
@@ -137,7 +137,7 @@ public class EvaluationAuthority extends ExpressionAuthority {
 
 	/**
 	 * This will evaluate all refs with the same expression.
-	 *
+	 * 
 	 * @param refs
 	 */
 	private void refsWithSameExpression(EvaluationReference[] refs) {
@@ -173,6 +173,10 @@ public class EvaluationAuthority extends ExpressionAuthority {
 	 * @param sourceNames
 	 */
 	private void startSourceChange(final String[] sourceNames) {
+		if (Policy.DEBUG_SOURCES) {
+			Tracing.printTrace(COMPONENT, "start source changed: " //$NON-NLS-1$
+					+ Arrays.asList(sourceNames));
+		}
 		notifying++;
 		if (notifying == 1) {
 			fireServiceChange(IEvaluationService.PROP_NOTIFYING, Boolean.FALSE,
@@ -184,6 +188,10 @@ public class EvaluationAuthority extends ExpressionAuthority {
 	 * @param sourceNames
 	 */
 	private void endSourceChange(final String[] sourceNames) {
+		if (Policy.DEBUG_SOURCES) {
+			Tracing.printTrace(COMPONENT, "end source changed: " //$NON-NLS-1$
+					+ Arrays.asList(sourceNames));
+		}
 		if (notifying == 1) {
 			fireServiceChange(IEvaluationService.PROP_NOTIFYING, Boolean.TRUE,
 					Boolean.FALSE);
@@ -235,13 +243,11 @@ public class EvaluationAuthority extends ExpressionAuthority {
 		for (int i = 0; i < listeners.length; i++) {
 			final IPropertyChangeListener listener = (IPropertyChangeListener) listeners[i];
 			SafeRunner.run(new ISafeRunnable() {
-				@Override
-        public void handleException(Throwable exception) {
+				public void handleException(Throwable exception) {
 					WorkbenchPlugin.log(exception);
 				}
 
-				@Override
-        public void run() throws Exception {
+				public void run() throws Exception {
 					listener.propertyChange(new PropertyChangeEvent(
 							EvaluationAuthority.this, property, oldValue,
 							newValue));
@@ -281,7 +287,7 @@ public class EvaluationAuthority extends ExpressionAuthority {
 
 	/**
 	 * Returns the currently active shell.
-	 *
+	 * 
 	 * @return The currently active shell; may be <code>null</code>.
 	 */
 	final Shell getActiveShell() {

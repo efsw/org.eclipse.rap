@@ -13,6 +13,7 @@ package org.eclipse.jface.bindings;
 import java.util.Collections;
 import java.util.Map;
 
+import org.eclipse.core.commands.util.Tracing;
 import org.eclipse.jface.util.Util;
 
 /**
@@ -22,7 +23,7 @@ import org.eclipse.jface.util.Util;
  * in a map. If it is not already there, then add it and set the cached binding
  * resolution.
  * </p>
- *
+ * 
  * @since 1.4
  */
 final class CachedBindingSet {
@@ -144,7 +145,7 @@ final class CachedBindingSet {
 
 	/**
 	 * Constructs a new instance of <code>CachedBindingSet</code>.
-	 *
+	 * 
 	 * @param activeContextTree
 	 *            The set of context identifiers that were active when this
 	 *            binding set was calculated; may be empty. If it is
@@ -200,15 +201,14 @@ final class CachedBindingSet {
 	 * Compares this binding set with another object. The objects will be equal
 	 * if they are both instance of <code>CachedBindingSet</code> and have
 	 * equivalent values for all of their properties.
-	 *
+	 * 
 	 * @param object
 	 *            The object with which to compare; may be <code>null</code>.
 	 * @return <code>true</code> if they are both instances of
 	 *         <code>CachedBindingSet</code> and have the same values for all
 	 *         of their properties; <code>false</code> otherwise.
 	 */
-	@Override
-  public final boolean equals(final Object object) {
+	public final boolean equals(final Object object) {
 		if (!(object instanceof CachedBindingSet)) {
 			return false;
 		}
@@ -229,7 +229,7 @@ final class CachedBindingSet {
 
 	/**
 	 * Returns the map of command identifiers indexed by trigger sequence.
-	 *
+	 * 
 	 * @return A map of triggers (<code>TriggerSequence</code>) to bindings (<code>Binding</code>).
 	 *         This value may be <code>null</code> if this was not yet
 	 *         initialized.
@@ -240,7 +240,7 @@ final class CachedBindingSet {
 
 	/**
 	 * Returns a map of conflicts for this set of contexts.
-	 *
+	 * 
 	 * @return A map of trigger to a collection of Bindings. May be
 	 *         <code>null</code>.
 	 */
@@ -251,7 +251,7 @@ final class CachedBindingSet {
 	/**
 	 * Returns the map of prefixes to a map of trigger sequence to command
 	 * identifiers.
-	 *
+	 * 
 	 * @return A map of prefixes (<code>TriggerSequence</code>) to a map of
 	 *         available completions (possibly <code>null</code>, which means
 	 *         there is an exact match). The available completions is a map of
@@ -265,7 +265,7 @@ final class CachedBindingSet {
 
 	/**
 	 * Returns the map of triggers indexed by command identifiers.
-	 *
+	 * 
 	 * @return A map of command identifiers (<code>String</code>) to
 	 *         triggers (<code>Collection</code> of
 	 *         <code>TriggerSequence</code>). This value may be
@@ -280,11 +280,10 @@ final class CachedBindingSet {
 	 * based only on the immutable values. This allows the set to be created and
 	 * checked for in a hashed collection <em>before</em> doing any
 	 * computation.
-	 *
+	 * 
 	 * @return The hash code for this cached binding set.
 	 */
-	@Override
-  public final int hashCode() {
+	public final int hashCode() {
 		if (!hashCodeComputed) {
 			hashCode = HASH_INITIAL;
 			hashCode = hashCode * HASH_FACTOR
@@ -300,7 +299,7 @@ final class CachedBindingSet {
 
 	/**
 	 * Sets the map of command identifiers indexed by trigger.
-	 *
+	 * 
 	 * @param commandIdsByTrigger
 	 *            The map to set; must not be <code>null</code>. This is a
 	 *            map of triggers (<code>TriggerSequence</code>) to binding (<code>Binding</code>).
@@ -316,7 +315,7 @@ final class CachedBindingSet {
 
 	/**
 	 * Sets the map of conflicting bindings by trigger.
-	 *
+	 * 
 	 * @param conflicts
 	 *            The map to set; must not be <code>null</code>.
 	 */
@@ -331,7 +330,7 @@ final class CachedBindingSet {
 	/**
 	 * Sets the map of prefixes to a map of trigger sequence to command
 	 * identifiers.
-	 *
+	 * 
 	 * @param prefixTable
 	 *            A map of prefixes (<code>TriggerSequence</code>) to a map
 	 *            of available completions (possibly <code>null</code>, which
@@ -343,6 +342,9 @@ final class CachedBindingSet {
 	final void setPrefixTable(final Map prefixTable) {
 		if (prefixTable == null) {
 			this.prefixTable = Collections.EMPTY_MAP;
+			if (BindingManager.DEBUG) {
+				Tracing.printTrace("BINDINGS", "Cannot set a null prefix table, set to EMPTY_MAP"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 			return;
 		}
 
@@ -351,7 +353,7 @@ final class CachedBindingSet {
 
 	/**
 	 * Sets the map of triggers indexed by command identifiers.
-	 *
+	 * 
 	 * @param triggersByCommandId
 	 *            The map to set; must not be <code>null</code>. This is a
 	 *            map of command identifiers (<code>String</code>) to

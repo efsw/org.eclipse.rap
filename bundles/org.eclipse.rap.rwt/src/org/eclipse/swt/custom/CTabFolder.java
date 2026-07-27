@@ -2172,7 +2172,6 @@ CTabItem[] items = itemHolder.getItems();
       item.dispose();
       itemHolder.remove( item );
     }
-    selectedIndex = -1;
   }
 
   //////////////////

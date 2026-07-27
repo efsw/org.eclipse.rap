@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2025, 2026 EclipseSource and others.
+ * Copyright (c) 2025 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -60,9 +60,7 @@ public class Camera extends Composite {
   private static final String RESOURCES_PATH = "org/eclipse/rap/rwt/addons/camera/";
   private static final String REGISTER_PATH = "camera/";
 
-  private static final String[] RESOURCES_FILES = {
-    "Camera.js", "camera-flip-32.png", "circle-slice-8-64.png"
-  };
+  private static final String[] RESOURCES_FILES = { "Camera.js", "camera-flip-32.png" };
   private static final String REMOTE_TYPE = "rwt.widgets.Camera";
 
   private final RemoteObject remoteObject;
@@ -82,7 +80,6 @@ public class Camera extends Composite {
     remoteObject.set( PROPERTY_PARENT, getId( this ) );
     cameraListeners = new ArrayList<CameraListener>();
     serverPush = new ServerPushSession();
-    serverPush.start();
     String uploadPath = registerFileUploadServiceHandler();
     remoteObject.set( PROPERTY_UPLOAD_PATH, stripContextPath( uploadPath ) );
   }
@@ -101,6 +98,7 @@ public class Camera extends Composite {
       SWT.error( SWT.ERROR_NULL_ARGUMENT );
     }
     remoteObject.call( METHOD_TAKE_PICTURE, createProperties( options ) );
+    serverPush.start();
   }
 
   /**
@@ -133,7 +131,6 @@ public class Camera extends Composite {
   public void dispose() {
     if( !isDisposed() ) {
       remoteObject.destroy();
-      serverPush.stop();
     }
     super.dispose();
   }
@@ -204,6 +201,7 @@ public class Camera extends Composite {
         public void run() {
           notifyListenersWithoutPicture();
           receiver.reset();
+          serverPush.stop();
         }
       } );
     }
@@ -216,6 +214,7 @@ public class Camera extends Composite {
         public void run() {
           notifyListenersWithImage( receiver.getImage() );
           receiver.reset();
+          serverPush.stop();
         }
       } );
     }

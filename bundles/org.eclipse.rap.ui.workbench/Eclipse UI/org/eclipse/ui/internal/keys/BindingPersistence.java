@@ -23,11 +23,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.commands.common.HandleObject;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.core.commands.util.Tracing;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionDelta;
@@ -627,17 +627,15 @@ public final class BindingPersistence extends PreferencePersistence {
 
 		// the local cache for the sequence modifiers
 		IConfigurationElement[] sequenceModifiers = new IConfigurationElement[0];
-		if(configurationElementCount >0) {
-      sequenceModifiers =  getSequenceModifierElements(configurationElements[0]);
-    }
+		if(configurationElementCount >0)
+			sequenceModifiers =  getSequenceModifierElements(configurationElements[0]);
 
 		for (int i = 0; i < configurationElementCount; i++) {
 			final IConfigurationElement configurationElement = configurationElements[i];
 
 			// different extension. update the cache ...
-			if( i>0 && !configurationElement.getDeclaringExtension().equals(configurationElements[i-1].getDeclaringExtension())) {
-        sequenceModifiers = getSequenceModifierElements(configurationElement);
-      }
+			if( i>0 && !configurationElement.getDeclaringExtension().equals(configurationElements[i-1].getDeclaringExtension()))
+				sequenceModifiers = getSequenceModifierElements(configurationElement);
 
 			/*
 			 * Read out the command id. Doing this before determining if the key
@@ -664,6 +662,11 @@ public final class BindingPersistence extends PreferencePersistence {
 					// parameterized command
 					viewParameter = commandId;
 					command = commandService.getCommand(IWorkbenchCommandConstants.VIEWS_SHOW_VIEW);
+					if (DEBUG) {
+						Tracing.printTrace("BINDINGS", "Command '" //$NON-NLS-1$ //$NON-NLS-2$
+								+ commandId + "\' should be migrated to "  //$NON-NLS-1$
+								+ IWorkbenchCommandConstants.VIEWS_SHOW_VIEW);
+					}
 					if (!command.isDefined()) {
 						// Reference to an undefined command. This is invalid.
 						addWarning(warningsToLog,
@@ -678,9 +681,8 @@ public final class BindingPersistence extends PreferencePersistence {
 
 			// Read out the scheme id.
 			String schemeId = readSchemeId(configurationElement, warningsToLog, commandId);
-			if(isEmpty(schemeId)) {
-        continue;
-      }
+			if(isEmpty(schemeId))
+				continue;
 
 			// Read out the context id.
 			String contextId = readContextId(configurationElement);
@@ -699,9 +701,8 @@ public final class BindingPersistence extends PreferencePersistence {
 
 			// Read out the key sequence.
 			KeySequence keySequence = readKeySequence(configurationElement, warningsToLog, commandId, keySequenceText);
-			if(keySequence == null) {
-        continue;
-      }
+			if(keySequence == null)
+				continue;
 
 			// Read out the locale and platform.
 
@@ -866,9 +867,8 @@ public final class BindingPersistence extends PreferencePersistence {
 		List modifierElements = new ArrayList();
 		for (int i = 0; i < configurationElements.length; i++) {
 			final IConfigurationElement anElement = configurationElements[i];
-			if(TAG_SEQUENCE_MODIFIER.equals(anElement.getName())) {
-        modifierElements.add(anElement);
-      }
+			if(TAG_SEQUENCE_MODIFIER.equals(anElement.getName()))
+				modifierElements.add(anElement);
 		}
 		return (IConfigurationElement[]) modifierElements.toArray(new IConfigurationElement[modifierElements.size()]);
 	}
@@ -890,9 +890,8 @@ public final class BindingPersistence extends PreferencePersistence {
 		if (isEmpty(keySequenceText)) {
 			keySequenceText = configurationElement.getAttribute(ATT_KEY_SEQUENCE);
 		}
-		if (isEmpty(keySequenceText)) {
-      keySequenceText = configurationElement.getAttribute(ATT_STRING);
-    }
+		if (isEmpty(keySequenceText))
+			keySequenceText = configurationElement.getAttribute(ATT_STRING);
 
 		return keySequenceText;
 
@@ -1101,6 +1100,13 @@ public final class BindingPersistence extends PreferencePersistence {
 	 */
 	static final void write(final Scheme activeScheme, final Binding[] bindings)
 			throws IOException {
+		// Print out debugging information, if requested.
+		if (DEBUG) {
+			Tracing.printTrace("BINDINGS", "Persisting active scheme '" //$NON-NLS-1$ //$NON-NLS-2$
+					+ activeScheme.getId() + '\'');
+			Tracing.printTrace("BINDINGS", "Persisting bindings"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
 		// Write the simple preference key to the UI preference store.
 		writeActiveScheme(activeScheme);
 
@@ -1250,8 +1256,7 @@ public final class BindingPersistence extends PreferencePersistence {
 		this.commandService = commandService;
 	}
 
-	@Override
-  protected final boolean isChangeImportant(final IRegistryChangeEvent event) {
+	protected final boolean isChangeImportant(final IRegistryChangeEvent event) {
 		return false;
 	}
 
@@ -1294,8 +1299,7 @@ public final class BindingPersistence extends PreferencePersistence {
 		return true;
 	}
 
-	@Override
-  protected final boolean isChangeImportant(final PropertyChangeEvent event) {
+	protected final boolean isChangeImportant(final PropertyChangeEvent event) {
 		return EXTENSION_COMMANDS.equals(event.getProperty());
 	}
 
@@ -1303,8 +1307,7 @@ public final class BindingPersistence extends PreferencePersistence {
 	 * Reads all of the binding information from the registry and from the
 	 * preference store.
 	 */
-	@Override
-  protected final void read() {
+	protected final void read() {
 		super.read();
 		reRead();
 	}

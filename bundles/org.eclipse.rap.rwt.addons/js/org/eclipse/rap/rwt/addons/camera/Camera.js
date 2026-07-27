@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2025, 2026 EclipseSource and others.
+ * Copyright (c) 2025 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,17 +18,15 @@
 
   rwt.widgets.Camera = function( properties ) {
     bindAll( this, [ "init", "layout", "start", "stop", "takePicture", "showNextVideoInputDevice",
-                     "isRunning", "onRender", "destroy", "capture" ] );
+                     "isRunning", "onRender", "destroy" ] );
     this.parent = rap.getObject( properties.parent );
     this.uploadPath = properties.uploadPath;
     this.canvasElement = document.createElement( "canvas" );
     this.videoElement = document.createElement( "video" );
     this.cameraFlipElement = document.createElement( "img" );
-    this.cameraCaptureElement = document.createElement( "img" );
     this.parent.append( this.videoElement );
     this.parent.append( this.canvasElement );
     this.parent.append( this.cameraFlipElement );
-    this.parent.append( this.cameraCaptureElement );
     this.parent.addListener( "Resize", this.layout );
     this.parent.addListener( "Dispose", this.destroy );
     this.videoInputDeviceId = null;
@@ -48,11 +46,9 @@
     destroy : function() {
       this.stop();
       this.cameraFlipElement.removeEventListener( "click", this.showNextVideoInputDevice );
-      this.cameraCaptureElement.removeEventListener( "click", this.capture );
       this.canvasElement.parentNode.removeChild( this.canvasElement );
       this.videoElement.parentNode.removeChild( this.videoElement );
       this.cameraFlipElement.parentNode.removeChild( this.cameraFlipElement );
-      this.cameraCaptureElement.parentNode.removeChild( this.cameraCaptureElement );
     },
 
     init : async function() {
@@ -64,15 +60,7 @@
       this.cameraFlipElement.height = 32;
       this.cameraFlipElement.style.position = "absolute";
       this.cameraFlipElement.style.cursor = "pointer";
-      this.cameraFlipElement.style.visibility = "hidden";
       this.cameraFlipElement.addEventListener( "click", this.showNextVideoInputDevice );
-      this.cameraCaptureElement.src = "rwt-resources/camera/circle-slice-8-64.png";
-      this.cameraCaptureElement.width = 64;
-      this.cameraCaptureElement.height = 64;
-      this.cameraCaptureElement.style.position = "absolute";
-      this.cameraCaptureElement.style.cursor = "pointer";
-      this.cameraCaptureElement.style.visibility = "hidden";
-      this.cameraCaptureElement.addEventListener( "click", this.capture );
       this.videoInputDeviceId = await initVideoInputDeviceId();
     },
 
@@ -83,11 +71,7 @@
       this.videoElement.width = area[ 2 ];
       this.videoElement.height = area[ 3 ];
       this.cameraFlipElement.style.top = "5px";
-      this.cameraFlipElement.style.left = "20px";
-      this.cameraFlipElement.style.visibility = "visible";
-      this.cameraCaptureElement.style.top = "40px";
-      this.cameraCaptureElement.style.left = "5px";
-      this.cameraCaptureElement.style.visibility = "visible";
+      this.cameraFlipElement.style.left = "5px";
     },
 
     start : async function() {
@@ -150,10 +134,6 @@
           } );
         }, "image/jpeg", properties.compressionQuality );
       }
-    },
-
-    capture : function() {
-      this.takePicture( { compressionQuality : 1 } );
     },
 
     showNextVideoInputDevice : async function() {

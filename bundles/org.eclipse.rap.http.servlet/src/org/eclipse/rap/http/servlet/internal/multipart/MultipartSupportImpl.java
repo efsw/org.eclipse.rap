@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016, 2026 Raymond Augé and others.
+ * Copyright (c) 2016, 2020 Raymond Augé and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -58,11 +58,11 @@ public class MultipartSupportImpl implements MultipartSupport {
 		upload = new JakartaServletFileUpload(factory);
 
 		if (servletDTO.multipartMaxFileSize > -1L) {
-			upload.setMaxFileSize(servletDTO.multipartMaxFileSize);
+			upload.setFileSizeMax(servletDTO.multipartMaxFileSize);
 		}
 
 		if (servletDTO.multipartMaxRequestSize > -1L) {
-			upload.setMaxSize(servletDTO.multipartMaxRequestSize);
+			upload.setSizeMax(servletDTO.multipartMaxRequestSize);
 		}
 	}
 
